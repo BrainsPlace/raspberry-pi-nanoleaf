@@ -1,23 +1,15 @@
-# Simple test for NeoPixels on Raspberry Pi
 import time
 import board
 import neopixel
+import matplotlib.colors as colors
 
-
-# Choose an open pin connected to the Data In of the NeoPixel strip, i.e. board.D18
-# NeoPixels must be connected to D10, D12, D18 or D21 to work.
 pixel_pin = board.D18
-
-# The number of NeoPixels
 num_pixels = 126
-
-# The order of the pixel colors - RGB or GRB. Some NeoPixels have red and green reversed!
-# For RGBW NeoPixels, simply change the ORDER to RGBW or GRBW.
 ORDER = neopixel.GRB
+pixels = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.1, auto_write=False, pixel_order=ORDER)
 
-pixels = neopixel.NeoPixel(
-    pixel_pin, num_pixels, brightness=0.2, auto_write=False, pixel_order=ORDER
-)
+def color_to_rgb(color):
+    return tuple(round(255 * x) for x in colors.to_rgb(color))
 
 def T1(r, g, b):
     for i in range(14):
@@ -90,14 +82,17 @@ def rainbow_cycle(wait):
 ###############################################################################
 ###############################################################################
 
-pixels.fill(255,0,0)
+pixels.fill(color_to_rgb('red'))
+pixels.show()
+time.sleep(2)
+pixels.fill(color_to_rgb('green'))
+pixels.show()
+time.sleep(2)
+pixels.fill(color_to_rgb('blue'))
+pixels.show()
+time.sleep(2)
 
 while True:
     rainbow_cycle(0.001)  # rainbow cycle with 1ms delay per step
-
-
-
- 
-
 
 # time.sleep(2)
